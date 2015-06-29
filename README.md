@@ -46,7 +46,9 @@ ex) git push origin mixed
 ```
 git push upstream 본인_아이디 
 ex) git push upstream 본인_아이디
+
 ```
+[참고](https://github.com/NHNNEXT/2015-02-HTML5/wiki/PR%EB%B3%B4%EB%82%B4%EB%8A%94-%EB%B0%A9%EB%B2%95)
 
 ### 7. 교수의 review을 확인 후 수정하고 4번 부터 시작.
 
