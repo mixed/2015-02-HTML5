@@ -1,5 +1,5 @@
 
-# 첫 번째
+# 첫 번째 [링크](http://portal.nhnnext.org/streaming/2014/2%ED%95%99%EA%B8%B0/HTML5%20Programming%20-%201/%EC%A0%84%EC%9A%A9%EC%9A%B0/322)
 1. 할일에 넣고 엔터를 치면 할일이 추가된다
 	- 이벤트를 할당한다.(addEventListener)
 	- 할일을 추가한다.(appendChild,insertAdjacentHTML)
@@ -9,7 +9,7 @@ template 라이브러리를 찾아보고 적용하기
 - micro template
 - handlebar
 
-# 두 번째
+# 두 번째 [링크](http://portal.nhnnext.org/streaming/2014/2%ED%95%99%EA%B8%B0/HTML5%20Programming%20-%201/%EC%A0%84%EC%9A%A9%EC%9A%B0/323)
 1. 등록한 할 일을 완료 처리하기
 	- 이벤트 할당하기
 	- class추가하기(li에 completed)
@@ -24,7 +24,7 @@ template 라이브러리를 찾아보고 적용하기
 - 에니메이션이 끝난 후 삭제할 수 있도록 이벤트 확인하기
 - (옵션) keyframe 공부해보기
 
-# 세 번째
+# 세 번째 [링크](http://portal.nhnnext.org/streaming/2014/2%ED%95%99%EA%B8%B0/HTML5%20Programming%20-%201/%EC%A0%84%EC%9A%A9%EC%9A%B0/324)
 1. 코드 개선하기
 	- 오브젝트 형식으로
 2. 서버와 연동하기
@@ -59,7 +59,7 @@ template 라이브러리를 찾아보고 적용하기
 - (옵션) fetch 공부해서 적용하기
 - (옵션2) promise 공부하기
 
-# 네 번째
+# 네 번째 [링크](http://portal.nhnnext.org/streaming/2014/2%ED%95%99%EA%B8%B0/HTML5%20Programming%20-%201/%EC%A0%84%EC%9A%A9%EC%9A%B0/324)
 1. 온라인 / 오프라인
 	- 오프라인일 때 localStorage에 저장하기
 	- 온라인일 때 서버에 싱크 맞추기
@@ -69,7 +69,7 @@ template 라이브러리를 찾아보고 적용하기
 - on/offline
 - (옵션) indexedDB 공부해서 적용하기
 
-# 다섯 번째
+# 다섯 번째 [링크](http://portal.nhnnext.org/streaming/2014/2%ED%95%99%EA%B8%B0/HTML5%20Programming%20-%201/%EC%A0%84%EC%9A%A9%EC%9A%B0/325)
 1. 뒤로 가기.
 	- pushState활용하기
 2. 등록,삭제할 때 애니메이션 입히기
