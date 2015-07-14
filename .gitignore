@@ -1,0 +1,3 @@
+asset/node-module/*
+!mustache.min.js
+!jquery.min.js
