@@ -4,7 +4,8 @@
 		<meta charset="utf-8">
 		<title>HTML5 Programming - 1 Class</title>
 		<link rel="stylesheet" href="asset/base.css">
-		<script type="text/javascript" src="asset/todolist.js"></script>
+		<script type="text/javascript" src="asset/node_modules/jquery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="asset/node_modules/mustache/mustache.min.js"></script>
 	</head>
 	<body>
 		<section id="todoapp">
@@ -16,27 +17,15 @@
 				<input id="toggle-all" type="checkbox">
 				<label for="toggle-all">Mark all as complete</label>
 				<ul id="todo-list">
-
-<!-- 
-					#완료했을때
-					<li class="completed">
-						<div class="view">
-							<input class="toggle" type="checkbox" checked>
-							<label>타이틀</label>
-							<button class="destroy"></button>
-						</div>
-					</li>
-
-					#일반 TODO
-					<li class="{}">
-						<div class="view">
-							<input class="toggle" type="checkbox" {}>
-							<label>타이틀</label>
-							<button class="destroy"></button>
-						</div>
-					</li>
- -->
-
+					<script id="template" type="x-tmpl-mustache">
+						<li>
+							<div class="view">
+								<input class="toggle" type="checkbox">
+								<label>{{title}}</label>
+								<button class="destroy"></button>
+							</div>
+						</li>
+					</script>
 				</ul>
 			</section>
 			<footer id="footer">
@@ -61,5 +50,26 @@
 			<p>Refactored by <a href="https://github.com/cburgmer">Christoph Burgmer</a></p>
 			<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 		</footer>
+		<script type="text/javascript" src="asset/todolist.js"></script>
 	</body>
 </html>
+
+<!-- 
+	#완료했을때
+	<li class="completed">
+		<div class="view">
+			<input class="toggle" type="checkbox" checked>
+			<label>타이틀</label>
+			<button class="destroy"></button>
+		</div>
+	</li>
+
+	#일반 TODO
+	<li class="{}">
+		<div class="view">
+			<input class="toggle" type="checkbox" {}>
+			<label>타이틀</label>
+			<button class="destroy"></button>
+		</div>
+	</li>
+ -->
