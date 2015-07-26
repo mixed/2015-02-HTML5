@@ -6,6 +6,11 @@ TD.ui.TodoApp = (function() {
     this.newTodo = $("#new-todo");
   }
 
+  TodoApp.prototype.init = function () {
+      this.addtodo();
+      this.completetodo();
+  };
+
   TodoApp.prototype.addtodo = function () {
       this.newTodo.keydown(function(e) {
         if(e.keyCode === ENTER_KEYCODE){
@@ -17,5 +22,11 @@ TD.ui.TodoApp = (function() {
         }
       });
     };
+  TodoApp.prototype.completetodo = function () {
+    $("ul#todo-list").on("click" , ".toggle", function (e) {
+         $(e.target).closest("li").toggleClass("completed");
+    });
+  };
+
   return TodoApp;
 })();
