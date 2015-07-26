@@ -3,21 +3,39 @@
 	<head>
 		<meta charset="utf-8">
 		<title>HTML5 Programming - 1 Class</title>
-		<link rel="stylesheet" href="asset/base.css">
-		<script type="text/javascript" src="asset/todolist.js"></script>
+
+		<!-- build:css(.) styles/vendor.css -->
+		<!-- bower:css -->
+		<!-- endbower -->
+		<!-- endbuild -->
+		<!-- build:css(.tmp) styles/main.css -->
+			<link rel="stylesheet" href="styles/base.css">
+		<!-- endbuild -->
+		<!-- build:js scripts/vendor/modernizr.js -->
+		<script src="../bower_components/modernizr/modernizr.js"></script>
+		<!-- endbuild -->
+
 	</head>
 	<body>
 		<section id="todoapp">
 			<header id="header">
 				<h1>todos</h1>
-				<input id="new-todo" placeholder="What needs to be done?" autofocus>
+				<input id="new-todo" placeholder="What needs to be done?" autocomplete="off" autofocus>
 			</header>
 			<section id="main">
 				<input id="toggle-all" type="checkbox">
 				<label for="toggle-all">Mark all as complete</label>
 				<ul id="todo-list">
-
-<!-- 
+					<script id="template" type="text/x-hadlebars-template">
+					<li class="{}">
+						<div class="view">
+							<input class="toggle" type="checkbox" {}>
+							<label>{{title}}</label>
+							<button class="destroy"></button>
+						</div>
+					</li>
+					</script>
+<!--
 					#완료했을때
 					<li class="completed">
 						<div class="view">
@@ -28,6 +46,7 @@
 					</li>
 
 					#일반 TODO
+
 					<li class="{}">
 						<div class="view">
 							<input class="toggle" type="checkbox" {}>
@@ -62,4 +81,13 @@
 			<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 		</footer>
 	</body>
+	<!-- build:js scripts/vendor/plugins.js -->
+	<script src="../bower_components/jquery/dist/jquery.js"></script>
+	<script src="../bower_components/handlebars/handlebars.js"></script>
+	<!-- endbuild -->
+
+	<!-- build:js scripts/main.js -->
+		<script type="text/javascript" src="scripts/main.js"></script>
+		<script type="text/javascript" src="scripts/todolist.js"></script>
+	<!-- endbuild -->
 </html>

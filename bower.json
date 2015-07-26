@@ -1,0 +1,24 @@
+{
+  "name": "2015-02-html5",
+  "private": true,
+  "dependencies": {
+    "bootstrap-sass": "~3.3.5",
+    "modernizr": "~2.8.3",
+    "jquery-pjax": "~1.9.6",
+    "requirejs": "~2.1.19",
+    "handlebars": "~3.0.3"
+  },
+  "overrides": {
+    "bootstrap-sass": {
+      "main": [
+        "assets/stylesheets/_bootstrap.scss",
+        "assets/fonts/bootstrap/*",
+        "assets/javascripts/bootstrap.js"
+      ]
+    }
+  },
+  "devDependencies": {
+    "chai": "~3.0.0",
+    "mocha": "~2.2.5"
+  }
+}
