@@ -1,10 +1,10 @@
 
 var TD = {};
-TD.ui = {};
-TD.utility = {};
+TD.UI = {};
+TD.DATA = {};
 
 $( document ).ready(function() {
   'use strict';
-      var todoApp = new TD.ui.TodoApp();
+      var todoApp = new TD.UI.TodoApp();
       todoApp.init();
  });
