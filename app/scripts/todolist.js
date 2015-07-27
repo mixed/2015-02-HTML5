@@ -10,7 +10,6 @@ TD.UI.TodoApp = (function() {
       this.addtodo();
       this.completetodo();
       this.removetodo();
-      this.addAnimation();
   };
 
   TodoApp.prototype.addtodo = function () {
@@ -20,11 +19,9 @@ TD.UI.TodoApp = (function() {
             title : $(this).val()
           };
           var template = Handlebars.compile( $("#template").html() );
-          var temp = $(template(data));
-          var heightBuffer = temp.css("height");
-          $("ul#todo-list").append(temp.addClass("blind"));
-
-            $("ul#todo-list .blind").removeClass().height("60px");
+          var temp = $(template(data)).hide();
+          $("ul#todo-list").append(temp.addClass("_add"));
+          $("ul#todo-list ._add").show("slow").removeClass("_add");
         }
       });
     };
@@ -36,13 +33,10 @@ TD.UI.TodoApp = (function() {
 
   TodoApp.prototype.removetodo = function () {
     $("ul#todo-list").on("click" , ".destroy", function (e) {
-         $(e.target).closest("li").css("opacity","0");
-         $(e.target).closest("li").remove();
+         $(e.target).closest("li").hide("slow", function() {
+            $(this).remove();
+         });
        });
   };
-  TodoApp.prototype.addAnimation = function () {
-    $("ul#todo-list li").CSSAnimate("height","1s","ease-out");
-  };
-
   return TodoApp;
 })();
