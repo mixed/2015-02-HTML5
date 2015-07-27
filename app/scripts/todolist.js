@@ -3,7 +3,11 @@ TD.UI.TodoApp = (function() {
     var ENTER_KEYCODE = 13;
 
   function TodoApp() {
-    this.newTodo = $("#new-todo");
+      if (this instanceof TodoApp) {
+
+      } else {
+        return new TodoApp();
+      }
   }
 
   TodoApp.prototype = (function() {
