@@ -17,4 +17,18 @@
       });
     }
   };
+
+  TD.DATA.typeCheck = function (object) {
+        var rtn = '';
+        if (typeof object === 'object') {
+            rtn = Object.prototype.toString
+                .call(Object)
+                .split(' ')[1]
+                .replace(']', '');
+        } else {
+            rtn = typeof object;
+        }
+        return rtn;
+    };
+
 })();
