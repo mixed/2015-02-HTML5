@@ -27,16 +27,24 @@
 				<label for="toggle-all">Mark all as complete</label>
 				<ul id="todo-list">
 					<script id="template" type="text/x-hadlebars-template">
-					<li class="{}">
+					{{#each li}}
+					<li data-key={{id}} style="display: none;">
 						<div class="view">
-							<input class="toggle" type="checkbox" {}>
-							<label>{{title}}</label>
+							{{#if completed}}
+							<input class="toggle" type="checkbox" checked>
+							{{else}}
+							<input class="toggle" type="checkbox" >
+							{{/if}}
+							<label>{{todo}}</label>
 							<button class="destroy"></button>
 						</div>
 					</li>
+					{{/each }}
 					</script>
 <!--
 					#완료했을때
+							//
+								//
 					<li class="completed">
 						<div class="view">
 							<input class="toggle" type="checkbox" checked>

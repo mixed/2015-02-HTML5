@@ -12,39 +12,56 @@ TD.UI.TodoApp = (function() {
   }
 
   TodoApp.prototype = (function() {
-    var _addtodo =  function (e) {
+    var _addTodo =  function (e) {
         if(e.keyCode === ENTER_KEYCODE){
           var data = {
-            nickname : "Hwangjjung",
-            title : $(this).val()
+            todo : $(this).val()
           };
-
-          sync.save(data, function(data) {
-            $("ul#todo-list").append(temp.addClass("_add").attr("data-key",data.insertId));
-            $("ul#todo-list ._add").show("slow").removeClass("_add");
-          }.bind(this));
-
-          var template = Handlebars.compile( $("#template").html() );
-          var temp = $(template(data)).hide();
+          sync.save(data, function(todo) {
+            $(data).prop("id",todo.insertId);
+            var list = {
+              li: [data]
+            };
+            var template = Handlebars.compile( $("#template").html() );
+            var html = template(list);
+            $(html).addClass("_add").prependTo($("ul#todo-list li:first"));
+            $("ul#todo-list ._add").show("slow").removeClass("");
+          });
         }
       };
 
-    var _completetodo = function (e) {
+    var _completeTodo = function (e) {
       $(e.target).closest("li").toggleClass("completed");
     };
 
-    var _removetodo = function (e) {
+    var _removeTodo = function (e) {
       $(e.target).closest("li").hide("slow", function() {
           $(this).remove();
       });
     };
 
+    var _getTodo = function (e) {
+      sync.get(function(todo) {
+        var list = {
+          li: todo
+        };
+        var template = Handlebars.compile( $("#template").html() );
+        var html = template(list);
+        $("ul#todo-list").append(html);
+        $("ul#todo-list li").each(function (index) {
+          $(this).show("slow").delay(index*50);
+        });
+      });
+    };
+
+
     return {
       constructor: TodoApp,
       init: function () {
-          $("#new-todo").keydown(_addtodo);
-          $("ul#todo-list").on("change" , ".toggle", _completetodo);
-          $("ul#todo-list").on("click" , ".destroy", _removetodo);
+          _getTodo();
+          $("#new-todo").keydown(_addTodo);
+          $("ul#todo-list").on("change" , ".toggle", _completeTodo);
+          $("ul#todo-list").on("click" , ".destroy", _removeTodo);
         }
       };
   })();

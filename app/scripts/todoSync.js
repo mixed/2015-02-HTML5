@@ -2,6 +2,8 @@ TD.DATA.TodoSync = (function() {
     'use strict';
   function TodoSync() {
       if (this instanceof TodoSync) {
+          this.url = "http://128.199.76.9:8002";
+          this.nickname = "HwangJJung";
 
       } else {
         return new TodoSync();
@@ -10,27 +12,38 @@ TD.DATA.TodoSync = (function() {
 
   TodoSync.prototype = (function() {
 
-    var _removetodo = function (e) {
-      $(e.target).closest("li").hide("slow", function() {
-          $(this).remove();
-      });
-    };
+    // var _removetodo = function (e) {
+    //   $(e.target).closest("li").hide("slow", function() {
+    //       $(this).remove();
+    //   });
+    // };
 
     return {
       constructor: TodoSync,
-      get: function () {
-          $("#new-todo").keydown(_addtodo);
-          $("ul#todo-list").on("change" , ".toggle", _completetodo);
-          $("ul#todo-list").on("click" , ".destroy", _removetodo);
+      get: function (callback) {
+          $.ajax({
+              method: "GET",
+              url: this.url+"/"+this.nickname,
+              data: { "nickname": this.nickname }
+              })
+              .done(function(data) {
+                if ($.isFunction(callback))  {
+                    callback(data);
+                }
+              })
+              .fail(function() {
+                  alert( "error" );
+          });
         },
       save: function (data, callback) {
+        $(data).prop("nickname",this.nickname);
         $.ajax({
-            method: "POST",
-            url: "http://128.199.76.9:8002/HwangJJung",
+            method: "PUT",
+            url: this.url+"/"+this.nickname,
             data: data
             })
             .done(function(data) {
-              if (typeCheck(callback) === "function")  {
+              if ($.isFunction(callback))  {
                   callback(data);
               }
             })
