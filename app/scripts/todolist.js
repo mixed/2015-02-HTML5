@@ -24,8 +24,8 @@ TD.UI.TodoApp = (function() {
             };
             var template = Handlebars.compile( $("#template").html() );
             var html = template(list);
-            $(html).addClass("_add").prependTo($("ul#todo-list li:first"));
-            $("ul#todo-list ._add").show("slow").removeClass("");
+            $(html).prependTo($("ul#todo-list"));
+            $("ul#todo-list li:first").show("slow");
           });
         }
       };
