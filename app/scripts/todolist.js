@@ -6,14 +6,8 @@ TD.UI.TodoApp = (function() {
     this.newTodo = $("#new-todo");
   }
 
-  TodoApp.prototype.init = function () {
-      this.addtodo();
-      this.completetodo();
-      this.removetodo();
-  };
-
-  TodoApp.prototype.addtodo = function () {
-      this.newTodo.keydown(function(e) {
+  TodoApp.prototype = (function() {
+    var _addtodo =  function (e) {
         if(e.keyCode === ENTER_KEYCODE){
           var data = {
             title : $(this).val()
@@ -23,20 +17,27 @@ TD.UI.TodoApp = (function() {
           $("ul#todo-list").append(temp.addClass("_add"));
           $("ul#todo-list ._add").show("slow").removeClass("_add");
         }
+      };
+
+    var _completetodo = function (e) {
+      $(e.target).closest("li").toggleClass("completed");
+    };
+
+    var _removetodo = function (e) {
+      $(e.target).closest("li").hide("slow", function() {
+          $(this).remove();
       });
     };
-  TodoApp.prototype.completetodo = function () {
-    $("ul#todo-list").on("click" , ".toggle", function (e) {
-         $(e.target).closest("li").toggleClass("completed");
-    });
-  };
 
-  TodoApp.prototype.removetodo = function () {
-    $("ul#todo-list").on("click" , ".destroy", function (e) {
-         $(e.target).closest("li").hide("slow", function() {
-            $(this).remove();
-         });
-       });
-  };
+    return {
+      constructor: TodoApp,
+      init: function () {
+          $("#new-todo").keydown(_addtodo);
+          $("ul#todo-list").on("click" , ".toggle", _completetodo);
+          $("ul#todo-list").on("click" , ".destroy", _removetodo);
+        }
+      };
+  })();
+
   return TodoApp;
 })();
