@@ -3,7 +3,10 @@ TD.UI.TodoApp = (function() {
     var ENTER_KEYCODE = 13;
     var sync = new TD.DATA.TodoSync();
     var typeManager = new TD.UTILITY.TypeManager();
-
+    var SELECTOR = {
+      TODO_UL_ID: "#todo-list",
+      TODO_INPUT: "#new-todo"
+    };
   function TodoApp() {
       if (this instanceof TodoApp) {
 
@@ -14,7 +17,7 @@ TD.UI.TodoApp = (function() {
 
   TodoApp.prototype = (function() {
 
-    var _renderTodo = function(todo) {
+    var _render = function(todo) {
       var list = {
         "li": todo
       };
@@ -22,21 +25,21 @@ TD.UI.TodoApp = (function() {
       return template(list);
     };
 
-    var _addTodo =  function (e) {
+    var _add =  function (e) {
         if(e.keyCode === ENTER_KEYCODE){
           var data = {
             "todo" : $(this).val()
           };
           sync.save(data, function(todo) {
             $(data).prop("id",todo.insertId);
-            var html = _renderTodo(data);
-            $(html).prependTo($("ul#todo-list"));
-            $("ul#todo-list li:first").show("slow");
+            var html = _render([data]);
+            $(html).prependTo($(SELECTOR.TODO_UL_ID));
+            $(SELECTOR.TODO_UL_ID +" li:first").show("slow");
           });
         }
       };
 
-    var _completeTodo = function (e) {
+    var _complete = function (e) {
       var data = {
         "todo" : $(this).siblings("label").text(),
         "id" : $(this).closest("li").data("id"),
@@ -47,11 +50,25 @@ TD.UI.TodoApp = (function() {
         });
     };
 
-    var _updateTodo = function (e) {
+    var _update = function (e) {
 
     };
 
-    var _removeTodo = function (e) {
+    var _toggleEdit = function (e) {
+        var editable = $(this).prop("contenteditable");
+        if(editable === "true"){
+          $(this).attr("contenteditable","false");
+        } else {
+          $(this).attr("contenteditable","true");
+          /*
+          * contenteditable 속성을 가진 엘리먼트에게 포커스이벤트 발생시
+          * 자동으로 커서가 잡히지 않기 때문에 스크립트로 잡아주어야한다.
+          */
+          $(this).trigger( "focus" );
+        }
+    };
+
+    var _remove = function (e) {
       var data = {
         "id" : $(this).closest("li").data("id")
       };
@@ -62,11 +79,11 @@ TD.UI.TodoApp = (function() {
         });
     };
 
-    var _getTodo = function (e) {
+    var _get = function (e) {
       sync.get(function(todo) {
-        var html = _renderTodo(todo);
-        $("ul#todo-list").append(html);
-        $("ul#todo-list li").each(function (index) {
+        var html = _render(todo);
+        $(SELECTOR.TODO_UL_ID).append(html);
+        $(SELECTOR.TODO_UL_ID + " li").each(function (index) {
           $(this).show("slow").delay(index*50);
         });
       });
@@ -75,10 +92,11 @@ TD.UI.TodoApp = (function() {
     return {
       constructor: TodoApp,
       init: function () {
-          _getTodo();
-          $("#new-todo").keydown(_addTodo);
-          $("ul#todo-list").on("change" , ".toggle", _completeTodo);
-          $("ul#todo-list").on("click" , ".destroy", _removeTodo);
+          _get();
+          $(SELECTOR.TODO_INPUT).keydown(_add);
+          $(SELECTOR.TODO_UL_ID).on("change" , ".toggle", _complete);
+          $(SELECTOR.TODO_UL_ID).on("click" , ".destroy", _remove);
+          $(SELECTOR.TODO_UL_ID).on("dblclick" , ".title", _toggleEdit);
         }
       };
   })();

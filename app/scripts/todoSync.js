@@ -15,9 +15,9 @@ TD.DATA.TodoSync = (function() {
       var self = this;
       var buffer;
       var url = self.url;
-      if (arguments.length === 2) {
-         buffer = { "nickname" : self.nickname };
-      } else if (arguments.length === 3) {
+
+      buffer = { "nickname" : self.nickname };
+      if (arguments.length === 3) {
           $(buffer).prop(data);
           if (data.hasOwnProperty("id")) {
             url = self.url + "/" + data.id;
@@ -43,7 +43,7 @@ TD.DATA.TodoSync = (function() {
         _todoAjax.call(this,"GET",callback);
       },
       save: function (data, callback) {
-        _todoAjax.call(this,"PUT",callback);
+        _todoAjax.call(this,"PUT",callback,data);
       },
       complete: function (data, callback) {
         _todoAjax.call(this,"POST",callback,data);
