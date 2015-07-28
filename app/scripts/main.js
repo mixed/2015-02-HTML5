@@ -2,6 +2,7 @@
 var TD = {};
 TD.UI = {};
 TD.DATA = {};
+TD.UTILITY = {};
 
 $( document ).ready(function() {
   'use strict';

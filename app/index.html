@@ -28,42 +28,15 @@
 				<ul id="todo-list">
 					<script id="template" type="text/x-hadlebars-template">
 					{{#each li}}
-					<li data-key={{id}} style="display: none;">
+					<li {{#if completed}}class="completed"{{/if}} data-id={{id}} style="display: none;" >
 						<div class="view">
-							{{#if completed}}
-							<input class="toggle" type="checkbox" checked>
-							{{else}}
-							<input class="toggle" type="checkbox" >
-							{{/if}}
+							<input class="toggle" type="checkbox" {{#if completed}}checked{{/if}}>
 							<label>{{todo}}</label>
 							<button class="destroy"></button>
 						</div>
 					</li>
 					{{/each }}
 					</script>
-<!--
-					#완료했을때
-							//
-								//
-					<li class="completed">
-						<div class="view">
-							<input class="toggle" type="checkbox" checked>
-							<label>타이틀</label>
-							<button class="destroy"></button>
-						</div>
-					</li>
-
-					#일반 TODO
-
-					<li class="{}">
-						<div class="view">
-							<input class="toggle" type="checkbox" {}>
-							<label>타이틀</label>
-							<button class="destroy"></button>
-						</div>
-					</li>
- -->
-				</ul>
 			</section>
 			<footer id="footer">
 				<span id="todo-count"></span>
@@ -95,7 +68,7 @@
 
 	<!-- build:js scripts/main.js -->
 		<script type="text/javascript" src="scripts/main.js"></script>
-		<script type="text/javascript" src="scripts/ui_utility.js"></script>
+		<script type="text/javascript" src="scripts/utility.js"></script>
 		<script type="text/javascript" src="scripts/todoSync.js"></script>
 		<script type="text/javascript" src="scripts/todolist.js"></script>
 	<!-- endbuild -->
