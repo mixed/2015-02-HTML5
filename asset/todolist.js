@@ -1,56 +1,89 @@
-/*var xhr = new XMLHttpRequest();
-xhr.open("GET", "", false);
-xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
-xhr.addEventListener()
-xhr.send(null);
-result = xhr.responseText;
-result = JSON.parse(xhr);*/
-
 var TODOSync = {
-	get : function() {
+	url : "http://128.199.76.9:8002/WooJaeWoo",
+	get : function(callback) {
+		$.ajax({
+			url: this.url,
+			method: "GET",
+			success: function(result) {
 
+			}
+		});
 	},
 	add : function(todo, callback) {
-		var xhr = new XMLHttpRequest();
-		xhr.open("PUT", "http://128.199.76.9:8002/WooJaeWoo", true);
-		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
-		xhr.addEventListener("load", function() {
-			callback(xhr.responseText);
-			//DOM 
+		$.ajax({
+			url: this.url,
+			method: "PUT",
+			data: {"todo": todo},
+			success: function(result) {
+				callback(result.insertId);
+			}
 		});
-		xhr.send("todo="+todo);
-
 	},
-	completed : function() {
-
+	completed : function(key) {
+		$.ajax({
+			url: this.url,
+			method: "PUT",
+			data: {"todo": todo},
+			success: function(result) {
+			}
+		});
 	},
-	remove : function() {
-
+	remove : function(key) {
+		$.ajax({
+			url: this.url + "/" + key,
+			method: "DELETE",
+			success: function(result) {
+				console.log(result);
+			}
+		});
 	}
 };
 
 var TODO = {
 	ENTER_KEYCODE : 13,
 	init : function() {
-		$("#new-todo").on("keyup", this.build.bind(this));
-		$('#todo-list').on("click",this.controller.bind(this));
+		$("#new-todo").on("keydown", this.build.bind(this));
+		$('#todo-list').on("click", ".toggle", this.completed.bind(this));
+		$('#todo-list').on("click", ".destroy", this.removeItem.bind(this));
 	},
 	build : function(event) {
 		var newTodo = $("#new-todo");
 		if (event.keyCode === this.ENTER_KEYCODE && newTodo.val()) {
-			this.makeItem(newTodo.val());
-			newTodo.val("");
+			TODOSync.add(newTodo.val(), function(key) {
+				this.makeItem(newTodo.val(), key);
+				newTodo.val("");
+			}.bind(this));
 		}
 	},
-	makeItem : function(todo) {
+	makeItem : function(todo, key) {
+		//Mustache Library
 		var template = $('#template').html();
 		Mustache.parse(template);
 		var rendered = Mustache.render(template, {title: todo});
 		$('#todo-list').append(rendered);
-		$('#todo-list li:last').css('opacity');
-		$('#todo-list li:last').removeClass("appending");
+		
+		var newTodoLi = $('#todo-list li:last');
+		newTodoLi.css('opacity');
+		newTodoLi.removeClass("appending");
+
+		//Dataset
+		newTodoLi[0].dataset.key = key;
 	},
-	controller : function(event) {
+	completed : function(event) {
+		var li = $(event.target).closest("li");
+		li.toggleClass("completed");
+	},
+	removeItem : function(event) {
+		var li = $(event.target).closest("li");
+		li.addClass("deleting");
+
+		TODOSync.remove(li[0].dataset.key);
+
+		li.on("transitionend", function() {
+			li.remove();
+		});
+	}*/
+	/*controller : function(event) {
 		var eTarget = event.target;
 		if (eTarget.tagName === "INPUT") {
 			this.completed(eTarget);
@@ -61,22 +94,23 @@ var TODO = {
 	},
 	completed : function(eTarget) {
 		var li = $(eTarget).closest("li");
-		if (eTarget.checked) {
-			li.addClass("completed");
-		}
-		else {
-			li.removeClass("completed");
-		}
+		li.toggleClass("completed");
 	},
 	removeItem : function(eTarget) {
 		var li = $(eTarget).closest("li");
 		li.addClass("deleting");
+
+		TODOSync.remove(li[0].dataset.key);
+
 		li.on("transitionend", function() {
 			li.remove();
 		});
-	}
+	}*/
 };
 
 $("document").ready(function() {
 	TODO.init();
 });
+
+
+//service worker
