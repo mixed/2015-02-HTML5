@@ -1,55 +1,20 @@
-var TODOSync = {
-	url : "http://128.199.76.9:8002/WooJaeWoo",
-	get : function(callback) {
-		$.ajax({
-			url: this.url,
-			method: "GET",
-			success: function(result) {
-
-			}
-		});
-	},
-	add : function(todo, callback) {
-		$.ajax({
-			url: this.url,
-			method: "PUT",
-			data: {"todo": todo},
-			success: function(result) {
-				callback(result.insertId);
-			}
-		});
-	},
-	completed : function(key) {
-		$.ajax({
-			url: this.url,
-			method: "PUT",
-			data: {"todo": todo},
-			success: function(result) {
-			}
-		});
-	},
-	remove : function(key) {
-		$.ajax({
-			url: this.url + "/" + key,
-			method: "DELETE",
-			success: function(result) {
-				console.log(result);
-			}
-		});
-	}
-};
-
 var TODO = {
 	ENTER_KEYCODE : 13,
 	init : function() {
 		$("#new-todo").on("keydown", this.build.bind(this));
 		$('#todo-list').on("click", ".toggle", this.completed.bind(this));
 		$('#todo-list').on("click", ".destroy", this.removeItem.bind(this));
+        
+        //ajax get
+        TODOSync.get(function(todo, key) {
+            this.makeItem(todo, key);
+        }.bind(this));
 	},
 	build : function(event) {
 		var newTodo = $("#new-todo");
 		if (event.keyCode === this.ENTER_KEYCODE && newTodo.val()) {
-			TODOSync.add(newTodo.val(), function(key) {
+			//ajax post
+            TODOSync.add(newTodo.val(), function(key) {
 				this.makeItem(newTodo.val(), key);
 				newTodo.val("");
 			}.bind(this));
@@ -67,50 +32,86 @@ var TODO = {
 		newTodoLi.removeClass("appending");
 
 		//Dataset
-		newTodoLi[0].dataset.key = key;
+        newTodoLi.attr("data-key", key);
 	},
 	completed : function(event) {
 		var li = $(event.target).closest("li");
-		li.toggleClass("completed");
+		var complete;
+        if (li.hasClass("completed")) {
+            complete = 0;
+        }
+        else {
+            complete = 1;
+        }
+        
+        //ajax complete
+        TODOSync.completed(li.attr("data-key"), complete, function() {
+            li.toggleClass("completed");
+        }.bind(this));
 	},
 	removeItem : function(event) {
 		var li = $(event.target).closest("li");
-		li.addClass("deleting");
-
-		TODOSync.remove(li[0].dataset.key);
-
-		li.on("transitionend", function() {
-			li.remove();
-		});
-	}*/
-	/*controller : function(event) {
-		var eTarget = event.target;
-		if (eTarget.tagName === "INPUT") {
-			this.completed(eTarget);
-		}
-		else if (eTarget.tagName === "BUTTON") {
-			this.removeItem(eTarget);
-		}
-	},
-	completed : function(eTarget) {
-		var li = $(eTarget).closest("li");
-		li.toggleClass("completed");
-	},
-	removeItem : function(eTarget) {
-		var li = $(eTarget).closest("li");
-		li.addClass("deleting");
-
-		TODOSync.remove(li[0].dataset.key);
-
-		li.on("transitionend", function() {
-			li.remove();
-		});
-	}*/
+        //ajax delete
+        TODOSync.remove(li.attr("data-key"), function() {
+            li.addClass("deleting");
+            li.on("transitionend", function() {
+                this.remove();
+            });
+        }.bind(this));
+	}
 };
+
+
+
+var TODOSync = {
+	url : "http://128.199.76.9:8002/WooJaeWoo",
+	get : function(callback) {
+		$.ajax({
+			url: this.url,
+			method: "GET",
+			success: function(result) {
+                $.each(result.reverse(), function(index, item) {
+                    callback(item.todo, item.id);
+                });
+			}
+		});
+	},
+	add : function(todo, callback) {
+		$.ajax({
+			url: this.url,
+			method: "PUT",
+			data: {"todo": todo},
+			success: function(result) {
+				callback(result.insertId);
+			}
+		});
+	},
+	completed : function(key, complete, callback) {
+		$.ajax({
+			url: this.url + "/" + key,
+			method: "POST",
+			data: {"completed": complete},
+			success: function(result) {
+                callback();
+			}
+		});
+	},
+	remove : function(key, callback) {
+		$.ajax({
+			url: this.url + "/" + key,
+			method: "DELETE",
+			success: function(result) {
+                callback();
+			}
+		});
+	}
+};
+
+
+
 
 $("document").ready(function() {
 	TODO.init();
 });
 
-
-//service worker
+//service worker??
