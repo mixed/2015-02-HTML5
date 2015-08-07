@@ -6,7 +6,7 @@ var TODO = {
 		$("#todo-list").on("click", ".toggle", this.completed.bind(this));
 		$("#todo-list").on("click", ".destroy", this.removeItem.bind(this));
         $("#filters").on("click", this.changeStateFilter.bind(this));
-        //$(window).on("popstate", this.changeURLFilter.bind(this));
+        $(window).on("popstate", this.changeURLFilter.bind(this));
         
         //ajax get
         TODOSync.get(function(todo, key, completed) {
@@ -37,15 +37,15 @@ var TODO = {
 			$("#todo-list").removeClass();
 			if (href === "index.html") {
 				this.viewAll();
-				//history.pushState({"method":"all"}, null, "index.html");
+				history.pushState({"method":"all"}, null, "index.html");
 			}
 			else if (href === "active") {
 				this.viewActive();
-				//history.pushState({"method":"active"}, null, "active");
+				history.pushState({"method":"active"}, null, "active");
 			}
 			else if (href === "completed") {
 				this.viewCompleted();
-				//history.pushState({"method":"completed"}, null, "completed");
+				history.pushState({"method":"completed"}, null, "completed");
 			}
 		}
 		event.preventDefault();

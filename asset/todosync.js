@@ -6,7 +6,8 @@ var TODOSync = {
 	},
 	onofflineListener : function() {
 		$("#header")[navigator.onLine?"removeClass":"addClass"]("offline");
-		// if (navigator.onLine) $("#header").removeClass("offline");
+		// 다음 코드와 같음
+        // if (navigator.onLine) $("#header").removeClass("offline");
 		// else $("#header").addClass("offline");
 
 		if (navigator.onLine) {
